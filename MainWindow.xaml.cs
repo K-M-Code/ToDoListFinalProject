@@ -9,19 +9,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using System.Data;
+
 
 
 namespace ToDoListFinalProject
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
     public partial class MainWindow : Window
     {
+        private DatabaseManager dbManager;
+
         public MainWindow()
         {
             InitializeComponent();
+            dbManager = new DatabaseManager();
+
+            // Check if the connection is open
+            dbManager.IsConnectionOpen();
         }
     }
 }
