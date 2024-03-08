@@ -7,5 +7,23 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtTaskTag" Width="200" Margin="0 0 10 0"/>
+            <Button Content="Add Task" Click="AddTask_Click"/>
+        </StackPanel>
+        <ListBox Grid.Row="1" x:Name="lstTasks" Margin="10" BorderThickness="1" Width="200" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsCompleted}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="5 0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

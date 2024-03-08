@@ -5,7 +5,7 @@ Run the below SQL Command to add table courses to db called Database
 CREATE TABLE Tasks (
     TaskId INT AUTO_INCREMENT PRIMARY KEY,
     Title VARCHAR(255) NOT NULL,
-    Completed BOOLEAN NOT NULL DEFAULT 0
+    IsCompleted BOOLEAN NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Tags (
@@ -20,3 +20,6 @@ CREATE TABLE TaskTags (
     FOREIGN KEY (TagId) REFERENCES Tags(TagId),
     PRIMARY KEY (TaskId, TagId)
 );
+
+
+ALTER TABLE Tasks AUTO_INCREMENT = 0;

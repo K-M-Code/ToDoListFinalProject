@@ -36,20 +36,23 @@ namespace ToDoListFinalProject
             connection = new MySqlConnection(connectionString);
         }
 
-        // Open connection to the database
-        private bool OpenConnection()
+        // Open connection to the database if not already open
+        public void OpenConnection()
         {
             try
             {
-                connection.Open();
-                return true;
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-                return false;
             }
         }
+
+
 
         // Close connection to the database
         private bool CloseConnection()
@@ -69,29 +72,52 @@ namespace ToDoListFinalProject
         // Check if the connection is open
         public bool IsConnectionOpen()
         {
-            if (OpenConnection())
+            try
             {
+                OpenConnection(); // Ensure connection is open
                 bool isOpen = connection.State == ConnectionState.Open;
                 string message = isOpen ? "Connection is open." : "Connection is closed.";
                 MessageBox.Show(message);
                 return isOpen;
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Connection failed to open.");
+                MessageBox.Show("Error checking connection state: " + ex.Message);
                 return false;
             }
         }
 
+
         // Execute Queries on SQL
         public void ExecuteQuery(string query)
         {
-            if (this.OpenConnection())
+            OpenConnection();
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
-                MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
-                this.CloseConnection();
             }
+            CloseConnection();
         }
+
+        public DataTable ExecuteSelectQuery(string query)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(dataTable);
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error executing select query: " + ex.Message);
+            }
+            return dataTable;
+        }
+
     }
 }
