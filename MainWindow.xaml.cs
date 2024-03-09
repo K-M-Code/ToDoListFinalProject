@@ -23,13 +23,14 @@ namespace ToDoListFinalProject
 
         private DatabaseManager dbManager;
         private TaskManager taskManager;
-
+        private TagManager tagManager;
 
         public MainWindow()
         {
             InitializeComponent();
             dbManager = new DatabaseManager();
             taskManager = new TaskManager(dbManager);
+            tagManager = new TagManager(dbManager);
 
             // Check if the connection is open
             dbManager.IsConnectionOpen();
@@ -58,6 +59,48 @@ namespace ToDoListFinalProject
             }
         }
 
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the task associated with the checkbox
+            CheckBox checkBox = (CheckBox)sender;
+            Task task = (Task)checkBox.DataContext;
+
+            // Toggle the completion status
+            task.IsCompleted = checkBox.IsChecked ?? false;
+
+            // Update the task in the database
+            taskManager.UpdateTask(task);
+        }
+
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Set the ListBoxItem's IsEditing property to true when the TextBlock is clicked
+            TextBlock textBlock = (TextBlock)sender;
+            Task task = (Task)textBlock.DataContext;
+            task.IsEditing = true;
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Save changes when the TextBox loses focus
+            TextBox textBox = (TextBox)sender;
+            Task task = (Task)textBox.DataContext;
+
+            // Update the task in the database
+            taskManager.UpdateTask(task);
+        }
+
+        private void lstTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Enable editing mode when a task is selected
+            if (lstTasks.SelectedItem != null)
+            {
+                Task selectedTask = (Task)lstTasks.SelectedItem;
+                selectedTask.IsEditing = true;
+            }
+        }
+
         private void AddTask_Click(object sender, RoutedEventArgs e)
         {
             // Create a new task with the description from the TextBox
@@ -76,5 +119,19 @@ namespace ToDoListFinalProject
             // Optionally, you can clear the TextBox after adding the task
             txtTaskTag.Clear();
         }
+
+
+        private void AddTag_Click(object sender, RoutedEventArgs e)
+        {
+            // Open the tag input dialog
+            var tagInputDialog = new TagInputDialog();
+            if (tagInputDialog.ShowDialog() == true)
+            {
+                // Add the tag using TagManager
+                tagManager.AddTag(tagInputDialog.TagName);
+            }
+        }
+
+
     }
 }

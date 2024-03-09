@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:ToDoListFinalProject"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,15 +18,51 @@
             <TextBox x:Name="txtTaskTag" Width="200" Margin="0 0 10 0"/>
             <Button Content="Add Task" Click="AddTask_Click"/>
         </StackPanel>
-        <ListBox Grid.Row="1" x:Name="lstTasks" Margin="10" BorderThickness="1" Width="200" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <ListBox Grid.Row="1" x:Name="lstTasks" Margin="10" BorderThickness="1" Width="200" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="lstTasks_SelectionChanged">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="IsSelected" Value="{Binding IsEditing, Mode=TwoWay}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsCompleted}" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="5 0"/>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="5 0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextDecorations" Value="{x:Null}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox Text="{Binding Title, Mode=TwoWay}" VerticalAlignment="Center" Margin="5 0" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" LostFocus="TextBox_LostFocus">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </StackPanel>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Content="Add Tag" Click="AddTag_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
     </Grid>
 </Window>

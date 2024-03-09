@@ -1,16 +1,65 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data;
 using MySql.Data.MySqlClient;
 
 
 namespace ToDoListFinalProject
 {
-    public class Task
+    public class Task : INotifyPropertyChanged
     {
-        public int TaskId { get; set; }
-        public string Title { get; set; }
-        public bool IsCompleted { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private int taskId;
+        public int TaskId
+        {
+            get { return taskId; }
+            set
+            {
+                taskId = value;
+                OnPropertyChanged(nameof(TaskId));
+            }
+        }
+
+        private string title;
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+        private bool isCompleted;
+        public bool IsCompleted
+        {
+            get { return isCompleted; }
+            set
+            {
+                isCompleted = value;
+                OnPropertyChanged(nameof(IsCompleted));
+            }
+        }
+
+        private bool isEditing;
+        public bool IsEditing
+        {
+            get { return isEditing; }
+            set
+            {
+                isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
+
 
     public class TaskManager
     {
@@ -26,6 +75,19 @@ namespace ToDoListFinalProject
             string query = $"INSERT INTO Tasks (Title, IsCompleted) VALUES ('{Task.Title}', '{(Task.IsCompleted ? 1 : 0)}')";
             dbManager.ExecuteQuery(query);
         }
+
+        public void UpdateTaskCompletion(int taskId, bool isCompleted)
+        {
+            string query = $"UPDATE Tasks SET IsCompleted = {(isCompleted ? 1 : 0)} WHERE TaskId = {taskId}";
+            dbManager.ExecuteQuery(query);
+        }
+
+        public void UpdateTask(Task task)
+        {
+            string query = $"UPDATE Tasks SET Title='{task.Title}', IsCompleted={(task.IsCompleted ? 1 : 0)} WHERE TaskId={task.TaskId}";
+            dbManager.ExecuteQuery(query);
+        }
+
 
         public List<Task> GetTasks()
         {

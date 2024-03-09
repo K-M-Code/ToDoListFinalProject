@@ -77,7 +77,7 @@ namespace ToDoListFinalProject
                 OpenConnection(); // Ensure connection is open
                 bool isOpen = connection.State == ConnectionState.Open;
                 string message = isOpen ? "Connection is open." : "Connection is closed.";
-                MessageBox.Show(message);
+                //MessageBox.Show(message);
                 return isOpen;
             }
             catch (Exception ex)
