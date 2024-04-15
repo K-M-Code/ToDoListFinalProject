@@ -84,6 +84,13 @@ namespace ToDoListFinalProject
             }
         }
 
+
+
+        private void TagsTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(lstTasks.ItemsSource).Refresh();
+        }
+
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             // Get the task associated with the checkbox
