@@ -2,13 +2,13 @@
 
 This is The final project for the Windows Programming course spring 2024, the selected project from the given options is a Todo list
 
-## Requirements
+# Requirements
 
     - Docker
     - .NET SDK 8
     - Visual Studio IDE
 
-## Steps to Run the project
+# Steps to Run the project
     
     1. Clone the Repository
     2. Deploy the Database using docker compose 
