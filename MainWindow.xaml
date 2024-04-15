@@ -70,7 +70,7 @@
             <Button Content="Add Task to Tag" Click="AddTaskToTag_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,10"/>
         </StackPanel>
         <StackPanel Margin="233,10,233,10" Grid.Row="1">
-            <GroupBox Header="Tags" Margin="10">
+            <!--<GroupBox Header="Tags" Margin="10">
                 <TabControl x:Name="tagsTabControl" ItemsSource="{Binding tags}" SelectionChanged="TagsTabControl_SelectionChanged">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
@@ -96,7 +96,7 @@
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                 </TabControl>
-            </GroupBox>
+            </GroupBox>-->
 
         </StackPanel>
         <Button Content="Add Tag" Click="AddTag_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"/>
