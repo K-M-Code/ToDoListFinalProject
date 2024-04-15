@@ -14,10 +14,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
-            <TextBox x:Name="txtTaskTag" Width="200" Margin="0 0 10 0"/>
-            <Button Content="Add Task" Click="AddTask_Click"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+            <TextBox x:Name="txtTaskTag" Width="200" Margin="0 0 10 0" VerticalAlignment="Center"/>
+            <Button Content="Add Task" VerticalAlignment="Center" Click="AddTask_Click"/>
         </StackPanel>
+
         <ListBox Grid.Row="1" x:Name="lstTasks" Margin="10" BorderThickness="1" Width="200" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="lstTasks_SelectionChanged">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
@@ -64,5 +65,15 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Content="Add Tag" Click="AddTag_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+        <!-- Tag section -->
+        <ListBox x:Name="lstTags" Margin="10" BorderThickness="1" Width="200" Height="300" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="0 0 0 5">
+                        <TextBlock Text="{Binding Name}" Padding="5"/>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

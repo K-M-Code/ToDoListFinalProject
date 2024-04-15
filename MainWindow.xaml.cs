@@ -20,6 +20,7 @@ namespace ToDoListFinalProject
     public partial class MainWindow : Window
     {
         private ObservableCollection<Task> tasks;
+        private ObservableCollection<Tag> tags;
 
         private DatabaseManager dbManager;
         private TaskManager taskManager;
@@ -39,9 +40,13 @@ namespace ToDoListFinalProject
             tasks = new ObservableCollection<Task>();
             lstTasks.ItemsSource = tasks;
 
+            // Initialize tags collection and populate the ListBox
+            tags = new ObservableCollection<Tag>();
+            lstTags.ItemsSource = tags;
+
             // Fetch tasks from the database and add them to the collection
             FetchTasks();
-
+            FetchTags();
         }
 
         private void FetchTasks()
@@ -56,6 +61,20 @@ namespace ToDoListFinalProject
             foreach (var task in fetchedTasks)
             {
                 tasks.Add(task);
+            }
+        }
+        private void FetchTags()
+        {
+            // Clear existing tasks
+            tags.Clear();
+
+            // Fetch tasks from the database
+            List<Tag> fetchedTags = tagManager.GetTags();
+
+            // Add fetched tasks to the collection
+            foreach (var tag in fetchedTags)
+            {
+                tags.Add(tag);
             }
         }
 
