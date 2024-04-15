@@ -99,6 +99,20 @@ namespace ToDoListFinalProject
             CloseConnection();
         }
 
+        public void ExecuteQueryWithParameters(string query, Dictionary<string, object> parameters)
+        {
+            OpenConnection();
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                foreach (KeyValuePair<string, object> pair in parameters)
+                {
+                    cmd.Parameters.AddWithValue(pair.Key, pair.Value);
+                }
+                cmd.ExecuteNonQuery();
+            }
+            CloseConnection();
+        }
+
         public DataTable ExecuteSelectQuery(string query)
         {
             DataTable dataTable = new DataTable();

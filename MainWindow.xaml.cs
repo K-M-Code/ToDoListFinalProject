@@ -25,6 +25,7 @@ namespace ToDoListFinalProject
         private DatabaseManager dbManager;
         private TaskManager taskManager;
         private TagManager tagManager;
+        private TaskTagManager taskTagManager;
 
         public MainWindow()
         {
@@ -32,6 +33,8 @@ namespace ToDoListFinalProject
             dbManager = new DatabaseManager();
             taskManager = new TaskManager(dbManager);
             tagManager = new TagManager(dbManager);
+            taskTagManager = new TaskTagManager(dbManager);
+
 
             // Check if the connection is open
             dbManager.IsConnectionOpen();
@@ -43,6 +46,9 @@ namespace ToDoListFinalProject
             // Initialize tags collection and populate the ListBox
             tags = new ObservableCollection<Tag>();
             lstTags.ItemsSource = tags;
+
+            TasksName.ItemsSource = tasks;
+            TagsName.ItemsSource = tags;
 
             // Fetch tasks from the database and add them to the collection
             FetchTasks();
@@ -150,6 +156,19 @@ namespace ToDoListFinalProject
                 tagManager.AddTag(tagInputDialog.TagName);
             }
         }
+
+        private void AddTaskToTag_Click(object sender, RoutedEventArgs e)
+        {
+            if (TasksName.SelectedItem is Task selectedTask && TagsName.SelectedItem is Tag selectedTag)
+            {
+                taskTagManager.AddTaskTag(selectedTask.TaskId, selectedTag.TagId);
+            }
+            else
+            {
+                MessageBox.Show("Please select both a task and a tag.");
+            }
+        }
+
 
 
     }
