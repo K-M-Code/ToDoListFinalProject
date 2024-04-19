@@ -1,5 +1,4 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using System.Windows;
 using System.Data;
 using System.ComponentModel;
@@ -40,42 +39,42 @@ namespace ToDoListFinalProject
         }
     }
 
-    public class TagManager
-    {
-        private DatabaseManager dbManager;
+    //public class TagManager
+    //{
+    //    //private DatabaseManager dbManager;
 
-        public TagManager(DatabaseManager databaseManager)
-        {
-            dbManager = databaseManager;
-        }
+    //    //public TagManager(DatabaseManager databaseManager)
+    //    //{
+    //    //    dbManager = databaseManager;
+    //    //}
 
-        public void AddTag(string tagName)
-        {
-            string query = $"INSERT INTO Tags (Name) VALUES ('{tagName}')";
-            dbManager.ExecuteQuery(query);
-        }
+    //    public void AddTag(string tagName)
+    //    {
+    //        string query = $"INSERT INTO Tags (Name) VALUES ('{tagName}')";
+    //        dbManager.ExecuteQuery(query);
+    //    }
 
 
-        public List<Tag> GetTags()
-        {
-            List<Tag> tags = new List<Tag>();
+    //    public List<Tag> GetTags()
+    //    {
+    //        List<Tag> tags = new List<Tag>();
 
-            // Fetch tasks from the database
-            string query = "SELECT TagId, Name FROM Tags";
-            DataTable dataTable = dbManager.ExecuteSelectQuery(query);
+    //        // Fetch tasks from the database
+    //        string query = "SELECT TagId, Name FROM Tags";
+    //        DataTable dataTable = dbManager.ExecuteSelectQuery(query);
 
-            // Populate Task objects from the fetched data
-            foreach (DataRow row in dataTable.Rows)
-            {
-                Tag tag = new Tag
-                {
-                    TagId = Convert.ToInt32(row["TagId"]),
-                    Name = row["Name"].ToString(),
-                };
-                tags.Add(tag);
-            }
+    //        // Populate Task objects from the fetched data
+    //        foreach (DataRow row in dataTable.Rows)
+    //        {
+    //            Tag tag = new Tag
+    //            {
+    //                TagId = Convert.ToInt32(row["TagId"]),
+    //                Name = row["Name"].ToString(),
+    //            };
+    //            tags.Add(tag);
+    //        }
 
-            return tags;
-        }
-    }
+    //        return tags;
+    //    }
+    //}
 }

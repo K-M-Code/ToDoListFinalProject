@@ -5,127 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListFinalProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Window.Resources>
-        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    </Window.Resources>
+         Title="Todo" 
+        Height="600"
+        Width="850"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10" Height="30px" Width="200">
-            <TextBox x:Name="txtTaskTag" Width="135" Margin="0 0 10 0" VerticalAlignment="Center"/>
-            <Button Content="Add Task" VerticalAlignment="Center" Click="AddTask_Click"/>
-        </StackPanel>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <GroupBox Grid.Column="0" Header="Adding a task" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBox x:Name="taskTextBox" Width="200" Margin="0,0,0,5" VerticalAlignment="Top" TextWrapping="Wrap"/>
+                        <Button Content="Add New" Click="AddNewTodo_Click" Width="100" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="importantCheckBox" Content="Important" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </GroupBox>
 
-        <ListBox Grid.Column="1" Grid.Row="1" x:Name="lstTasks" Margin="10" BorderThickness="1" Width="200" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="lstTasks_SelectionChanged">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="IsSelected" Value="{Binding IsEditing, Mode=TwoWay}"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
+            </Grid>
+            <Grid Grid.Column="1"/>
+            <Grid Grid.Column="2"/>
+        </Grid>
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}" VerticalAlignment="Center"/>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="5 0">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextDecorations" Value="{x:Null}"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsCompleted}" Value="True">
-                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <TextBox Text="{Binding Title, Mode=TwoWay}" VerticalAlignment="Center" Margin="5 0" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" LostFocus="TextBox_LostFocus">
-                                <TextBox.Style>
-                                    <Style TargetType="TextBox">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                        </StackPanel>
+        <!-- Second Section -->
+        <Grid Grid.Row="1" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <GroupBox Header="Tasks" Padding="5">
+                            <ListBox x:Name="TodosListBox">
+
+                            </ListBox>
+                        </GroupBox>
                     </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="50,10,10,10">
-            <ComboBox Name="TagsName" Width="125" Height="20" Margin="10" HorizontalAlignment="Center" DisplayMemberPath="Name"></ComboBox>
-            <ComboBox Name="TasksName" Width="125" Height="20" Margin="10" HorizontalAlignment="Center" DisplayMemberPath="Title"></ComboBox>
-            <Button Content="Add Task to Tag" Click="AddTaskToTag_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,10"/>
-        </StackPanel>
-        <StackPanel Margin="233,10,233,10" Grid.Row="1">
-            <GroupBox Header="Tags" HorizontalAlignment="Left" VerticalAlignment="Top" Height="200" Width="300">
-                <Grid>
-                    <TabControl Margin="10">
-                        <TabItem Header="Tag 1">
-                            <ListBox Margin="5">
-                                <ListViewItem Content="Task 1"/>
-                                <ListViewItem Content="Task 2"/>
-                                <ListViewItem Content="Task 3"/>
-                            </ListBox>
-                        </TabItem>
-                        <TabItem Header="Tag 2">
-                        </TabItem>
-                        <TabItem Header="Tag 3">
-                        </TabItem>
-                    </TabControl>
-                </Grid>
-            </GroupBox>
-            <!--<GroupBox Header="Tags" Margin="10">
-                <TabControl x:Name="tagsTabControl" ItemsSource="{Binding tags}" SelectionChanged="TagsTabControl_SelectionChanged">
-                    <TabControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
-                        </DataTemplate>
-                    </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
-                        <DataTemplate>
+                    <Grid Grid.Column="1">
+                        <GroupBox Header="Tags" Padding="5">
                             <ListBox>
-                                <ListBox.ItemsSource>
-                                    <Binding>
-                                        <Binding.Source>
-                                            <CollectionViewSource Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=tasks}" Filter="TaskFilter"/>
-                                        </Binding.Source>
-                                    </Binding>
-                                </ListBox.ItemsSource>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Title}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DataTemplate>
-                    </TabControl.ContentTemplate>
-                </TabControl>
-            </GroupBox>-->
 
-        </StackPanel>
-        <Button Content="Add Tag" Click="AddTag_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"/>
-        <!-- Tag section -->
-        <ListBox x:Name="lstTags" Margin="10" BorderThickness="1" Width="200" Height="300" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Margin="0 0 0 5">
-                        <TextBlock Text="{Binding Name}" Padding="5"/>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                            </ListBox>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <GroupBox Header="Categories" Padding="5">
+                        <TabControl x:Name="SortedTodosTabControl">
+                            <TabItem Header="Important">
+                                <ListBox x:Name="ImportantTodosListBox" DisplayMemberPath="Title"/>
+                            </TabItem>
+                            <TabItem Header="Completed">
+                                <ListBox x:Name="CompletedTodosListBox" DisplayMemberPath="Title"/>
+                            </TabItem>
+                            <TabItem Header="Deleted">
+                                <ListBox x:Name="DeletedTodosListBox" DisplayMemberPath="Title"/>
+                            </TabItem>
+                        </TabControl>
+                    </GroupBox>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
