@@ -56,27 +56,20 @@
                         </GroupBox>
                     </Grid>
                     <Grid Grid.Column="1">
-                        <GroupBox Header="Tags" Padding="5">
-                            <ListBox>
-
-                            </ListBox>
+                        <GroupBox Header="Categories" Padding="5">
+                            <TabControl x:Name="SortedTodosTabControl">
+                                <TabItem Header="Important">
+                                    <ListBox x:Name="ImportantTodosListBox" DisplayMemberPath="Title"/>
+                                </TabItem>
+                                <TabItem Header="Completed">
+                                    <ListBox x:Name="CompletedTodosListBox" DisplayMemberPath="Title"/>
+                                </TabItem>
+                                <TabItem Header="Deleted">
+                                    <ListBox x:Name="DeletedTodosListBox" DisplayMemberPath="Title"/>
+                                </TabItem>
+                            </TabControl>
                         </GroupBox>
                     </Grid>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <GroupBox Header="Categories" Padding="5">
-                        <TabControl x:Name="SortedTodosTabControl">
-                            <TabItem Header="Important">
-                                <ListBox x:Name="ImportantTodosListBox" DisplayMemberPath="Title"/>
-                            </TabItem>
-                            <TabItem Header="Completed">
-                                <ListBox x:Name="CompletedTodosListBox" DisplayMemberPath="Title"/>
-                            </TabItem>
-                            <TabItem Header="Deleted">
-                                <ListBox x:Name="DeletedTodosListBox" DisplayMemberPath="Title"/>
-                            </TabItem>
-                        </TabControl>
-                    </GroupBox>
                 </Grid>
             </Grid>
         </Grid>

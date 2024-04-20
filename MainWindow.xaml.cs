@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,7 +10,6 @@ namespace ToDoListFinalProject
     public partial class MainWindow : Window
     {
         TodoContext todoContext;
-
         public MainWindow()
         {
             todoContext = new TodoContext();
